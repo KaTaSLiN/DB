@@ -21,7 +21,7 @@ bool CServer::sendPackets()
 	bool didSend = false;
 	while (!m_PacketsToSend.empty())
 	{
-		std::cout << "Intra in Send" << std::endl;
+		//std::cout << "Intra in Send" << std::endl;
 		m_Clients[m_PacketsToSend.back().first]->send(m_PacketsToSend.back().second);
 		m_PacketsToSend.pop_back();
 		didSend = true;
@@ -40,7 +40,7 @@ bool CServer::receivePackets()
 			sf::Packet packet;
 			if (m_Clients[i]->receive(packet) == sf::Socket::Done)
 			{
-				std::cout << "In Receive" << std::endl;
+				//std::cout << "In Receive" << std::endl;
 
 				this->m_PacketsReceived.push_back(std::make_pair(i, packet));
 				didReceive = true;
@@ -55,7 +55,7 @@ bool CServer::processPackets(MYSQL* DBConnection)
 	bool didProcess = false;
 	while (!m_PacketsReceived.empty())
 	{
-		std::cout << "In Process fara Conn" << std::endl;
+		//std::cout << "In Process fara Conn" << std::endl;
 
 		if (DBConnection)
 		{
@@ -63,19 +63,30 @@ bool CServer::processPackets(MYSQL* DBConnection)
 			m_PacketsReceived.back().second >> text;
 			CQuery query(text);
 
-			std::cout << "In Process cu Conn" << std::endl;
+			//std::cout << "In Process cu Conn" << std::endl;
 			query.ask(DBConnection);
-			sf::Packet packetToSend;
-			packetToSend << query.getResult();
+
+			//Process
+			for (unsigned int i = 0; i < query.getResult().getNumberOfFields(); i++)
+			{
+				printf("%s ", query.getResult().getFieldName(i));
+			}
+
+			std::cout << std::endl;
+
 			for (unsigned int i = 0; i < query.getResult().getNumberOfRows(); i++)
 			{
 				for (unsigned int j = 0; j < query.getResult().getNumberOfFields(); j++)
 				{
-					//std::cout << query.getResult()[i][j] << " ";
 					printf("%s ", query.getResult()[i][j]);
 				}
 				std::cout << std::endl;
 			}
+
+			//End Process
+
+			sf::Packet packetToSend;
+			packetToSend << query.getResult();
 			m_PacketsToSend.push_back(std::make_pair(m_PacketsReceived.back().first, packetToSend));
 			m_PacketsReceived.pop_back();
 			query.clear();

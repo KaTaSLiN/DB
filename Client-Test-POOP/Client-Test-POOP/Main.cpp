@@ -42,13 +42,13 @@ int main(void)
 
     std::string command;
 
-    std::cout << "In command" << std::endl;
+    //std::cout << "In command" << std::endl;
     std::cout << "Enter a Command: ";
     std::getline(std::cin, command);
     packetToSend.clear();
     if (packetToSend << command)
     {
-        std::cout << "In Send" << std::endl;
+       // std::cout << "In Send" << std::endl;
         socket.send(packetToSend);
         socket.setBlocking(false);
     }
@@ -62,7 +62,7 @@ int main(void)
             CResult res;
             if (packetReceived >> res)
             {
-                std::cout << "In rezultat" << std::endl;
+                //std::cout << "In rezultat" << std::endl;
                 for (unsigned int i = 0; i < res.getNumberOfRows(); i++)
                 {
                     for (unsigned int j = 0; j < res.getNumberOfFields(); j++)
@@ -73,13 +73,13 @@ int main(void)
                 }
             }
 
-            std::cout << "In command" << std::endl;
+            //std::cout << "In command" << std::endl;
             std::cout << "Enter a Command: ";
             std::getline(std::cin, command);
             packetToSend.clear();
             if (packetToSend << command)
             {
-                std::cout << "In Send" << std::endl;
+               // std::cout << "In Send" << std::endl;
                 socket.send(packetToSend);
                 socket.setBlocking(false);
             } 

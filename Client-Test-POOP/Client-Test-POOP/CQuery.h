@@ -22,10 +22,6 @@ public:
 	void setQuery(const char* Query);
 
 	//Overload
-	//friend sf::Packet& operator<<(sf::Packet& packet, const CQuery& q);
-	//friend sf::Packet& operator>>(sf::Packet& packet, CQuery& q);
-
-
 	CQuery& operator= (const CQuery& Query);
 	CQuery& operator= (const std::string Query);
 	CQuery& operator= (const char* Query);

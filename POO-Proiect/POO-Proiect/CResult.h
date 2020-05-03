@@ -16,6 +16,7 @@ public:
 	MYSQL_RES* getResultPtr();
 	unsigned int getNumberOfFields();
 	uint64_t getNumberOfRows();
+	char* getFieldName(unsigned int index);
 
 	//Setters
 	void setResultPtr(MYSQL_RES* ResultPtr);
@@ -28,9 +29,11 @@ public:
 	CResult& operator=(MYSQL_RES* ResultPtr);
 	MYSQL_ROW& operator[](unsigned int index);
 
+
 	//Functions
 	void addRow(MYSQL_ROW Row);
 	MYSQL_ROW extractRow();
+	void addField(MYSQL_FIELD* Field);
 	MYSQL_FIELD* extractField();
 	void clear();
 
@@ -40,6 +43,7 @@ private:
 	unsigned int m_NumberOfFields;
 	uint64_t m_NumberOfRows;
 	std::vector<MYSQL_ROW> m_Rows;
+	std::vector<char*>m_Fields;
 
 	//Private Functions
 	

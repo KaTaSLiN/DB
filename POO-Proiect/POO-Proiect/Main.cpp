@@ -31,17 +31,16 @@ using namespace std;
 //int main()
 //{
 //    CDataBase db(DBHost.c_str(), DBUser.c_str(), DBPass.c_str(), DBName.c_str(), DBport);
-//   /* if (db.getConnection())
-//    {
-//        CQuery q("Select * from members");
-//        q.ask(db.getConnection());
+//     if (db.getConnection())
+//     {
+//         CQuery q("Select * from members");
+//         q.ask(db.getConnection());
 //
-//        for (int i = 0; i < q.getResult().getNumberOfRows(); i++)
-//        {
-//            printf("ID: %s.Name is %s , Sex %s  \n", q.getResult()[i][0], q.getResult()[i][1], q.getResult()[i][2]);
-//        }
-//    }*/
-//
+//         for (int i = 0; i < q.getResult().getNumberOfRows(); i++)
+//         {
+//             printf("ID: %s.Name is %s , Sex %s  \n", q.getResult()[i][0], q.getResult()[i][1], q.getResult()[i][2]);
+//         }
+//     }
 //    CServer server;
 //    server.initServer(2000);
 //    bool Done = false;
@@ -130,3 +129,46 @@ int main()
 
     return 0;
 }
+
+//int main(void)
+//{
+//    cout << endl;
+//    MYSQL* con;
+//    MYSQL_ROW row;
+//    MYSQL_RES* res;
+//    MYSQL_FIELD* field;
+//
+//    con = mysql_init(0);
+//
+//    con = mysql_real_connect(con, "localhost", "root", "MuieVladimir1403", "myflixdb", 3306, NULL, 0);
+//
+//    if (con)
+//    {
+//        puts("Succesfull!");
+//        string query = "SELECT * FROM members;";
+//        const char* q = query.c_str();
+//        int c = mysql_query(con, q);
+//        if (!c)
+//            std::cout << "1 Merge" << std::endl;
+//        else
+//            std::cout << "1 Nu merge" << std::endl;
+//
+//        res = mysql_store_result(con);
+//        if(res)
+//            std::cout << "2 Merge" << std::endl;
+//        else
+//            std::cout << "2 Nu merge" << std::endl;
+//
+//
+//        while ((field = mysql_fetch_field(res)))
+//        {
+//            printf("field name %s\n", field->name);
+//        }
+//
+//        while (row = mysql_fetch_row(res))
+//        {
+//            printf("ID: %s.Name is %s , Sex %s  \n", row[0], row[1], row[2]);
+//        }
+//    }
+//    return EXIT_SUCCESS;
+//}

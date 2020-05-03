@@ -49,6 +49,17 @@ MYSQL_ROW CResult::extractRow()
 	return mysql_fetch_row(this->m_ResultPtr);
 }
 
+void CResult::addField(MYSQL_FIELD* Field)
+{
+	if (Field != nullptr)
+	{
+		char* copy = (char*)malloc((Field->name_length) * sizeof(char));
+		strncpy(copy, Field->name, Field->name_length);
+		//copy[Field->name_length] = '\0';
+		this->m_Fields.push_back(copy);
+	}
+}
+
 MYSQL_FIELD* CResult::extractField()
 {
 	return mysql_fetch_field(this->m_ResultPtr);
@@ -56,9 +67,26 @@ MYSQL_FIELD* CResult::extractField()
 
 void CResult::addRow(MYSQL_ROW Row)
 {
+	//Update
 	if (Row != nullptr)
 	{
-		this->m_Rows.push_back(Row);
+		char** copy = (char**)malloc((this->m_NumberOfFields) * sizeof(char*));
+		for (unsigned int j = 0; j < this->m_NumberOfFields; j++)
+		{
+			if (Row[j] != nullptr)
+			{
+				copy[j] = (char*)malloc((strlen(Row[j]) + 1) * sizeof(char));
+				strncpy(copy[j], Row[j], strlen(Row[j]));
+				copy[j][strlen(Row[j])] = '\0';
+			}
+			else
+			{
+				copy[j] = (char*)malloc((strlen("NULL") + 1) * sizeof(char));
+				strncpy(copy[j], "NULL", strlen("NULL"));
+				copy[j][strlen("NULL")] = '\0';
+			}
+		}
+		this->m_Rows.push_back(copy);
 	}
 }
 
@@ -110,22 +138,24 @@ sf::Packet& operator<<(sf::Packet& packet, const CResult& r)
 sf::Packet& operator>>(sf::Packet& packet, CResult& r)
 {
 	//Versiune initiala
-/*packet >> r.m_NumberOfFields >> r.m_NumberOfRows;
-for (unsigned int i = 0; i < r.m_NumberOfRows; i++)
-	for (unsigned int j = 0; j < r.m_NumberOfFields; j++)
-		packet >> r.m_Rows[i][j];*/
+	/*packet >> r.m_NumberOfFields >> r.m_NumberOfRows;
+	for (unsigned int i = 0; i < r.m_NumberOfRows; i++)
+		for (unsigned int j = 0; j < r.m_NumberOfFields; j++)
+			packet >> r.m_Rows[i][j];*/
 
 
 	packet >> r.m_NumberOfFields >> r.m_NumberOfRows;
+	//Table
 	char*** Table = (char***)malloc((r.m_NumberOfRows) * sizeof(char**));
-	//char** Row = (char**)malloc((r.m_NumberOfFields) * sizeof(char*));
 	char buff[1000];
 	for (unsigned int i = 0; i < r.m_NumberOfRows; i++)
 	{
+		//Row
 		Table[i] = (char**)malloc((r.m_NumberOfFields) * sizeof(char*));
 		for (unsigned int j = 0; j < r.m_NumberOfFields; j++)
 		{
 			packet >> buff;
+			//Field
 			Table[i][j] = (char*)malloc((strlen(buff) + 1) * sizeof(char));
 			strncpy(Table[i][j], buff, strlen(buff));
 			Table[i][j][strlen(buff)] = '\0';

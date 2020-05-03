@@ -29,6 +29,15 @@ uint64_t CResult::getNumberOfRows()
 	return this->m_NumberOfRows;
 }
 
+char* CResult::getFieldName(unsigned int index)
+{
+	if (index <= this->m_Fields.size())
+		return this->m_Fields[index];
+	else
+		return this->m_Fields[0];
+	return nullptr;
+}
+
 void CResult::setResultPtr(MYSQL_RES* ResultPtr)
 {
 	this->m_ResultPtr = ResultPtr;
@@ -49,6 +58,24 @@ MYSQL_ROW CResult::extractRow()
 	return mysql_fetch_row(this->m_ResultPtr);
 }
 
+void CResult::addField(MYSQL_FIELD* Field)
+{
+	if (Field != nullptr)
+	{
+		char* copy = (char*)malloc((Field->name_length) * sizeof(char));
+		strncpy(copy, Field->name, Field->name_length);
+		copy[Field->name_length] = '\0';
+		this->m_Fields.push_back(copy);
+	}
+	else
+	{
+		char* copy = (char*)malloc((strlen("No name") + 1) * sizeof(char));
+		strncpy(copy, "No name", strlen("No name"));
+		copy[strlen("No name")] = '\0';
+		this->m_Fields.push_back(copy);
+	}
+}
+
 MYSQL_FIELD* CResult::extractField()
 {
 	return mysql_fetch_field(this->m_ResultPtr);
@@ -56,9 +83,26 @@ MYSQL_FIELD* CResult::extractField()
 
 void CResult::addRow(MYSQL_ROW Row)
 {
+	//Update
 	if (Row != nullptr)
 	{
-		this->m_Rows.push_back(Row);
+		char** copy = (char**)malloc((this->m_NumberOfFields) * sizeof(char*));
+		for (unsigned int j = 0; j < this->m_NumberOfFields; j++)
+		{
+			if (Row[j] != nullptr)
+			{
+				copy[j] = (char*)malloc((strlen(Row[j]) + 1) * sizeof(char));
+				strncpy(copy[j], Row[j], strlen(Row[j]));
+				copy[j][strlen(Row[j])] = '\0';
+			}
+			else
+			{
+				copy[j] = (char*)malloc((strlen("NULL") + 1) * sizeof(char));
+				strncpy(copy[j], "NULL", strlen("NULL"));
+				copy[j][strlen("NULL")] = '\0';
+			}
+		}
+		this->m_Rows.push_back(copy);
 	}
 }
 

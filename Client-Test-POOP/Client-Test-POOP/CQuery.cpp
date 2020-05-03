@@ -1,4 +1,5 @@
 #include "CQuery.h"
+#include <iostream>
 
 CQuery::CQuery() : m_Query(""), m_Result(nullptr, 0, 0)
 {
@@ -105,14 +106,17 @@ void CQuery::clear()
 int CQuery::ask(MYSQL* DataBase)
 {
 	MYSQL_ROW row;
-
+	MYSQL_FIELD* field;
+	int c = 0;
 	if (DataBase)
 	{
 		//this->m_Query = "SELECT * FROM members;";
-
-		if (mysql_query(DataBase, this->m_Query.c_str()))
+		c = mysql_query(DataBase, this->m_Query.c_str());
+		if (c)
 		{
 			// ERROR
+			std::cout << "Eroare MYSQL_QUERY: "<< mysql_error(DataBase) << std::endl;
+
 		}
 		else // query succeeded, process any data returned by it
 		{
@@ -121,10 +125,13 @@ int CQuery::ask(MYSQL* DataBase)
 			if (this->m_Result.getResultPtr())  // there are rows
 			{
 				// retrieve rows, then call mysql_free_result(result)
+				while (field = this->m_Result.extractField())
+				{
+					this->m_Result.addField(field);
+				}
 				while (row = this->m_Result.extractRow())
 				{
-					//Pentru a merge cu std::cout poate trebuie aici facut ceva inainte sa adaug ??
-						this->m_Result.addRow(row);
+					this->m_Result.addRow(row);
 				}
 			}
 			else  //mysql_store_result() returned nothing; should it have?
@@ -138,21 +145,14 @@ int CQuery::ask(MYSQL* DataBase)
 				else // mysql_store_result() should have returned data
 				{
 					// ERROR
+					std::cout << "Eroare nu returneaza date si ar fi trebuit!" << std::endl;
 
 					//fprintf(stderr, "Error: %s\n", mysql_error(DataBase));
 				}
 			}
+
+			mysql_free_result(this->m_Result.getResultPtr());
 		}
 	}
-	return mysql_query(DataBase, this->m_Query.c_str());
+	return c;
 }
-
- //sf::Packet& operator <<(sf::Packet& packet, const CQuery& q)
- //{
- //    return packet << q.m_Query << q.m_Result;
- //}
-
- //sf::Packet& operator >>(sf::Packet& packet, CQuery& q)
- //{
-	// return packet >> q.m_Query >> q.m_Result;
- //}
