@@ -33,7 +33,7 @@ public:
 	//Functions
 	void addRow(MYSQL_ROW Row);
 	MYSQL_ROW extractRow();
-	void addField(MYSQL_FIELD* Field);
+	void addField(char* Field);
 	MYSQL_FIELD* extractField();
 	void clear();
 

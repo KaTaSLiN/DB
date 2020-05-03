@@ -58,13 +58,13 @@ MYSQL_ROW CResult::extractRow()
 	return mysql_fetch_row(this->m_ResultPtr);
 }
 
-void CResult::addField(MYSQL_FIELD* Field)
+void CResult::addField(char* Field)
 {
 	if (Field != nullptr)
 	{
-		char* copy = (char*)malloc((Field->name_length) * sizeof(char));
-		strncpy(copy, Field->name, Field->name_length);
-		copy[Field->name_length] = '\0';
+		char* copy = (char*)malloc((strlen(Field) + 1) * sizeof(char));
+		strncpy(copy, Field, strlen(Field));
+		copy[strlen(Field)] = '\0';
 		this->m_Fields.push_back(copy);
 	}
 	else
@@ -140,6 +140,13 @@ MYSQL_ROW& CResult::operator[](unsigned int index)
 sf::Packet& operator<<(sf::Packet& packet, const CResult& r)
 {
 	packet << r.m_NumberOfFields << r.m_NumberOfRows;
+	for (unsigned int j = 0; j < r.m_NumberOfFields; j++)
+	{
+		if (r.m_Fields[j] != nullptr)
+			packet << r.m_Fields[j];
+		else
+			packet << "No name";
+	}
 	for (unsigned int i = 0; i < r.m_NumberOfRows; i++)
 		for (unsigned int j = 0; j < r.m_NumberOfFields; j++)
 		{
@@ -153,17 +160,21 @@ sf::Packet& operator<<(sf::Packet& packet, const CResult& r)
 
 sf::Packet& operator>>(sf::Packet& packet, CResult& r)
 {
-	//Versiune initiala
-	/*packet >> r.m_NumberOfFields >> r.m_NumberOfRows;
-	for (unsigned int i = 0; i < r.m_NumberOfRows; i++)
-		for (unsigned int j = 0; j < r.m_NumberOfFields; j++)
-			packet >> r.m_Rows[i][j];*/
-
-
+	char buff[1000];
 	packet >> r.m_NumberOfFields >> r.m_NumberOfRows;
+	//Fields
+	char** Fields = (char**)malloc((r.m_NumberOfFields) * sizeof(char*));
+	for (unsigned int j = 0; j < r.m_NumberOfFields; j++)
+	{
+		packet >> buff;
+		//Field Name
+		Fields[j] = (char*)malloc((strlen(buff) + 1) * sizeof(char));
+		strncpy(Fields[j], buff, strlen(buff));
+		Fields[j][strlen(buff)] = '\0';
+		r.addField(Fields[j]);
+	}
 	//Table
 	char*** Table = (char***)malloc((r.m_NumberOfRows) * sizeof(char**));
-	char buff[1000];
 	for (unsigned int i = 0; i < r.m_NumberOfRows; i++)
 	{
 		//Row
@@ -178,11 +189,6 @@ sf::Packet& operator>>(sf::Packet& packet, CResult& r)
 		}
 		r.addRow(Table[i]);
 	}
-
-	//Clear memory
-	/*for (unsigned int i = 0; i < r.m_NumberOfFields; i++)
-		free(Row[i]);
-	free(Row);*/
 
 	return packet;
 }

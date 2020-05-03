@@ -18,10 +18,10 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CResult.cpp">
+    <ClCompile Include="..\..\POO-Proiect\POO-Proiect\CQuery.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\POO-Proiect\POO-Proiect\CQuery.cpp">
+    <ClCompile Include="..\..\POO-Proiect\POO-Proiect\CResult.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -30,6 +30,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\POO-Proiect\POO-Proiect\CResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\POO-Proiect\POO-Proiect\IQuery.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\POO-Proiect\POO-Proiect\IResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

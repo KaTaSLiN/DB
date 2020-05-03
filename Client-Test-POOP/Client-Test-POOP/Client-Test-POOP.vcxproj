@@ -103,13 +103,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\thesl\Desktop\POO-Proiect\SFML\include;C:\Program Files\MySQL\Connector C++ 8.0\include;C:\Program Files\MySQL\MySQL Server 8.0\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\git\DB\POO-Proiect\POO-Proiect;D:\git\DB\POO-Proiect\POO-Proiect;C:\Users\thesl\Desktop\POO-Proiect\SFML\include;C:\Program Files\MySQL\Connector C++ 8.0\include;C:\Program Files\MySQL\MySQL Server 8.0\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>sfml-system-d.lib;sfml-graphics-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-window-d.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\thesl\Desktop\POO-Proiect\SFML\lib;C:\Program Files\MySQL\MySQL Server 8.0\lib;C:\Program Files\MySQL\Connector C++ 8.0\lib64\vs14</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\git\DB\POO-Proiect\POO-Proiect;D:\git\DB\POO-Proiect\POO-Proiect;C:\Users\thesl\Desktop\POO-Proiect\SFML\lib;C:\Program Files\MySQL\MySQL Server 8.0\lib;C:\Program Files\MySQL\Connector C++ 8.0\lib64\vs14</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,7 +136,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\thesl\Desktop\POO-Proiect\SFML\include;C:\Program Files\MySQL\Connector C++ 8.0\include;C:\Program Files\MySQL\MySQL Server 8.0\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\git\DB\POO-Proiect\POO-Proiect;C:\Users\thesl\Desktop\POO-Proiect\SFML\include;C:\Program Files\MySQL\Connector C++ 8.0\include;C:\Program Files\MySQL\MySQL Server 8.0\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,17 +146,19 @@
       <AdditionalDependencies>sfm-system.lib;sfml-graphics.lib;sfml-audio.lib;sfml-network.lib;sfml-windows.lib;mysqlcppconn.lib 
 
 libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\thesl\Desktop\POO-Proiect\SFML\lib;C:\Program Files\MySQL\MySQL Server 8.0\lib;C:\Program Files\MySQL\Connector C++ 8.0\lib64\vs14</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\git\DB\POO-Proiect\POO-Proiect;C:\Users\thesl\Desktop\POO-Proiect\SFML\lib;C:\Program Files\MySQL\MySQL Server 8.0\lib;C:\Program Files\MySQL\Connector C++ 8.0\lib64\vs14</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\POO-Proiect\POO-Proiect\CQuery.cpp" />
-    <ClCompile Include="CResult.cpp" />
+    <ClCompile Include="..\..\POO-Proiect\POO-Proiect\CResult.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\POO-Proiect\POO-Proiect\CQuery.h" />
     <ClInclude Include="..\..\POO-Proiect\POO-Proiect\CResult.h" />
+    <ClInclude Include="..\..\POO-Proiect\POO-Proiect\IQuery.h" />
+    <ClInclude Include="..\..\POO-Proiect\POO-Proiect\IResult.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

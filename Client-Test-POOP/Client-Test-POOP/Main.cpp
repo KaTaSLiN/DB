@@ -63,6 +63,11 @@ int main(void)
             if (packetReceived >> res)
             {
                 //std::cout << "In rezultat" << std::endl;
+                for (unsigned int j = 0; j < res.getNumberOfFields(); j++)
+                {
+                    printf("%s ", res.getFieldName(j));
+                }
+                std::cout << std::endl;
                 for (unsigned int i = 0; i < res.getNumberOfRows(); i++)
                 {
                     for (unsigned int j = 0; j < res.getNumberOfFields(); j++)

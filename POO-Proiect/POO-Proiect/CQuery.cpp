@@ -127,7 +127,7 @@ int CQuery::ask(MYSQL* DataBase)
 				// retrieve rows, then call mysql_free_result(result)
 				while (field = this->m_Result.extractField())
 				{
-					this->m_Result.addField(field);
+					this->m_Result.addField(field->name);
 				}
 				while (row = this->m_Result.extractRow())
 				{
