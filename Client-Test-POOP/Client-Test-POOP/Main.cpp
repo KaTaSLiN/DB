@@ -63,19 +63,27 @@ int main(void)
             if (packetReceived >> res)
             {
                 //std::cout << "In rezultat" << std::endl;
-                for (unsigned int j = 0; j < res.getNumberOfFields(); j++)
-                {
-                    printf("%s ", res.getFieldName(j));
-                }
-                std::cout << std::endl;
-                for (unsigned int i = 0; i < res.getNumberOfRows(); i++)
+                if (res.getNumberOfFields() > 0)
                 {
                     for (unsigned int j = 0; j < res.getNumberOfFields(); j++)
                     {
-                        printf("%s ", res[i][j]);
+                        printf("%s ", res.getFieldName(j));
                     }
                     std::cout << std::endl;
+                    for (unsigned int i = 0; i < res.getNumberOfRows(); i++)
+                    {
+                        for (unsigned int j = 0; j < res.getNumberOfFields(); j++)
+                        {
+                            printf("%s ", res[i][j]);
+                        }
+                        std::cout << std::endl;
+                    }
                 }
+                else
+                {
+                    std::cout << "Rows affected: " << res.getNumberOfRows() << std::endl;
+                }
+
             }
 
             //std::cout << "In command" << std::endl;

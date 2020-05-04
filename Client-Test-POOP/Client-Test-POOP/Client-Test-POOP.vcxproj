@@ -103,13 +103,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\git\DB\POO-Proiect\POO-Proiect;D:\git\DB\POO-Proiect\POO-Proiect;C:\Users\thesl\Desktop\POO-Proiect\SFML\include;C:\Program Files\MySQL\Connector C++ 8.0\include;C:\Program Files\MySQL\MySQL Server 8.0\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\git\DB\POO-Proiect\Dependencies\SFML\include;D:\git\DB\POO-Proiect\Dependencies\MySQL\Connector C++ 8.0\include;D:\git\DB\POO-Proiect\Dependencies\MySQL\MySQL Server 8.0\include;D:\git\DB\POO-Proiect\POO-Proiect</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>sfml-system-d.lib;sfml-graphics-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-window-d.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\git\DB\POO-Proiect\POO-Proiect;D:\git\DB\POO-Proiect\POO-Proiect;C:\Users\thesl\Desktop\POO-Proiect\SFML\lib;C:\Program Files\MySQL\MySQL Server 8.0\lib;C:\Program Files\MySQL\Connector C++ 8.0\lib64\vs14</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\git\DB\POO-Proiect\POO-Proiect;D:\git\DB\POO-Proiect\Dependencies\SFML\lib;D:\git\DB\POO-Proiect\Dependencies\MySQL\MySQL Server 8.0\lib;D:\git\DB\POO-Proiect\Dependencies\MySQL\Connector C++ 8.0\lib64\vs14</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,7 +136,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\git\DB\POO-Proiect\POO-Proiect;C:\Users\thesl\Desktop\POO-Proiect\SFML\include;C:\Program Files\MySQL\Connector C++ 8.0\include;C:\Program Files\MySQL\MySQL Server 8.0\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\git\DB\POO-Proiect\Dependencies\SFML\include;D:\git\DB\POO-Proiect\Dependencies\MySQL\MySQL Server 8.0\include;D:\git\DB\POO-Proiect\Dependencies\MySQL\Connector C++ 8.0\include;D:\git\DB\POO-Proiect\POO-Proiect</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,7 +146,7 @@
       <AdditionalDependencies>sfm-system.lib;sfml-graphics.lib;sfml-audio.lib;sfml-network.lib;sfml-windows.lib;mysqlcppconn.lib 
 
 libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\git\DB\POO-Proiect\POO-Proiect;C:\Users\thesl\Desktop\POO-Proiect\SFML\lib;C:\Program Files\MySQL\MySQL Server 8.0\lib;C:\Program Files\MySQL\Connector C++ 8.0\lib64\vs14</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\git\DB\POO-Proiect\POO-Proiect;D:\git\DB\POO-Proiect\Dependencies\SFML\lib;D:\git\DB\POO-Proiect\Dependencies\MySQL\MySQL Server 8.0\lib;D:\git\DB\POO-Proiect\Dependencies\MySQL\Connector C++ 8.0\lib64\vs14</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

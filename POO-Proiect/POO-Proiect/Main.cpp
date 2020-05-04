@@ -16,7 +16,6 @@
   headers from cppconn/ and mysql_driver.h + mysql_util.h
   (and mysql_connection.h). This will reduce your build time!
 */
-#include <iostream>
 #include "Global.h"
 using namespace std;
 

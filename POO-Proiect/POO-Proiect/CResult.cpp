@@ -140,21 +140,24 @@ MYSQL_ROW& CResult::operator[](unsigned int index)
 sf::Packet& operator<<(sf::Packet& packet, const CResult& r)
 {
 	packet << r.m_NumberOfFields << r.m_NumberOfRows;
-	for (unsigned int j = 0; j < r.m_NumberOfFields; j++)
+	if (r.m_NumberOfFields > 0 && r.m_NumberOfRows > 0)
 	{
-		if (r.m_Fields[j] != nullptr)
-			packet << r.m_Fields[j];
-		else
-			packet << "No name";
-	}
-	for (unsigned int i = 0; i < r.m_NumberOfRows; i++)
 		for (unsigned int j = 0; j < r.m_NumberOfFields; j++)
 		{
-			if (r.m_Rows[i][j] != nullptr)
-				packet << r.m_Rows[i][j];
+			if (r.m_Fields[j] != nullptr)
+				packet << r.m_Fields[j];
 			else
-				packet << "NULL";
+				packet << "No name";
 		}
+		for (unsigned int i = 0; i < r.m_NumberOfRows; i++)
+			for (unsigned int j = 0; j < r.m_NumberOfFields; j++)
+			{
+				if (r.m_Rows[i][j] != nullptr)
+					packet << r.m_Rows[i][j];
+				else
+					packet << "NULL";
+			}
+	}
 	return packet;
 }
 
@@ -162,33 +165,35 @@ sf::Packet& operator>>(sf::Packet& packet, CResult& r)
 {
 	char buff[1000];
 	packet >> r.m_NumberOfFields >> r.m_NumberOfRows;
-	//Fields
-	char** Fields = (char**)malloc((r.m_NumberOfFields) * sizeof(char*));
-	for (unsigned int j = 0; j < r.m_NumberOfFields; j++)
+	if (r.m_NumberOfFields > 0 && r.m_NumberOfRows > 0)
 	{
-		packet >> buff;
-		//Field Name
-		Fields[j] = (char*)malloc((strlen(buff) + 1) * sizeof(char));
-		strncpy(Fields[j], buff, strlen(buff));
-		Fields[j][strlen(buff)] = '\0';
-		r.addField(Fields[j]);
-	}
-	//Table
-	char*** Table = (char***)malloc((r.m_NumberOfRows) * sizeof(char**));
-	for (unsigned int i = 0; i < r.m_NumberOfRows; i++)
-	{
-		//Row
-		Table[i] = (char**)malloc((r.m_NumberOfFields) * sizeof(char*));
+		//Fields
+		char** Fields = (char**)malloc((r.m_NumberOfFields) * sizeof(char*));
 		for (unsigned int j = 0; j < r.m_NumberOfFields; j++)
 		{
 			packet >> buff;
-			//Field
-			Table[i][j] = (char*)malloc((strlen(buff) + 1) * sizeof(char));
-			strncpy(Table[i][j], buff, strlen(buff));
-			Table[i][j][strlen(buff)] = '\0';
+			//Field Name
+			Fields[j] = (char*)malloc((strlen(buff) + 1) * sizeof(char));
+			strncpy(Fields[j], buff, strlen(buff));
+			Fields[j][strlen(buff)] = '\0';
+			r.addField(Fields[j]);
 		}
-		r.addRow(Table[i]);
+		//Table
+		char*** Table = (char***)malloc((r.m_NumberOfRows) * sizeof(char**));
+		for (unsigned int i = 0; i < r.m_NumberOfRows; i++)
+		{
+			//Row
+			Table[i] = (char**)malloc((r.m_NumberOfFields) * sizeof(char*));
+			for (unsigned int j = 0; j < r.m_NumberOfFields; j++)
+			{
+				packet >> buff;
+				//Field
+				Table[i][j] = (char*)malloc((strlen(buff) + 1) * sizeof(char));
+				strncpy(Table[i][j], buff, strlen(buff));
+				Table[i][j][strlen(buff)] = '\0';
+			}
+			r.addRow(Table[i]);
+		}
 	}
-
 	return packet;
 }
