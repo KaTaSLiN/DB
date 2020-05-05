@@ -62,6 +62,7 @@ void CResult::addField(char* Field)
 {
 	if (Field != nullptr)
 	{
+		//Clear this
 		char* copy = (char*)malloc((strlen(Field) + 1) * sizeof(char));
 		strncpy(copy, Field, strlen(Field));
 		copy[strlen(Field)] = '\0';
@@ -69,6 +70,7 @@ void CResult::addField(char* Field)
 	}
 	else
 	{
+		//Clear this
 		char* copy = (char*)malloc((strlen("No name") + 1) * sizeof(char));
 		strncpy(copy, "No name", strlen("No name"));
 		copy[strlen("No name")] = '\0';
@@ -86,17 +88,20 @@ void CResult::addRow(MYSQL_ROW Row)
 	//Update
 	if (Row != nullptr)
 	{
+		//Clear this
 		char** copy = (char**)malloc((this->m_NumberOfFields) * sizeof(char*));
 		for (unsigned int j = 0; j < this->m_NumberOfFields; j++)
 		{
 			if (Row[j] != nullptr)
 			{
+				//Clear this
 				copy[j] = (char*)malloc((strlen(Row[j]) + 1) * sizeof(char));
 				strncpy(copy[j], Row[j], strlen(Row[j]));
 				copy[j][strlen(Row[j])] = '\0';
 			}
 			else
 			{
+				//Clear this
 				copy[j] = (char*)malloc((strlen("NULL") + 1) * sizeof(char));
 				strncpy(copy[j], "NULL", strlen("NULL"));
 				copy[j][strlen("NULL")] = '\0';
@@ -168,26 +173,31 @@ sf::Packet& operator>>(sf::Packet& packet, CResult& r)
 	if (r.m_NumberOfFields > 0 && r.m_NumberOfRows > 0)
 	{
 		//Fields
+		//Clear this
 		char** Fields = (char**)malloc((r.m_NumberOfFields) * sizeof(char*));
 		for (unsigned int j = 0; j < r.m_NumberOfFields; j++)
 		{
 			packet >> buff;
 			//Field Name
+			//Clear this
 			Fields[j] = (char*)malloc((strlen(buff) + 1) * sizeof(char));
 			strncpy(Fields[j], buff, strlen(buff));
 			Fields[j][strlen(buff)] = '\0';
 			r.addField(Fields[j]);
 		}
 		//Table
+		//Clear this
 		char*** Table = (char***)malloc((r.m_NumberOfRows) * sizeof(char**));
 		for (unsigned int i = 0; i < r.m_NumberOfRows; i++)
 		{
 			//Row
+			//Clear this
 			Table[i] = (char**)malloc((r.m_NumberOfFields) * sizeof(char*));
 			for (unsigned int j = 0; j < r.m_NumberOfFields; j++)
 			{
 				packet >> buff;
 				//Field
+				//Clear this
 				Table[i][j] = (char*)malloc((strlen(buff) + 1) * sizeof(char));
 				strncpy(Table[i][j], buff, strlen(buff));
 				Table[i][j][strlen(buff)] = '\0';

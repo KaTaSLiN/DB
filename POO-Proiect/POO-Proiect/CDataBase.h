@@ -21,17 +21,17 @@ public:
 	CCredentials getCredentials();
 
 	//Setters
-	//
 
 	//Functions 
 	void closeConnection();
 private:
-	//members
+	//Members
 	MYSQL* m_Connection;
 	CCredentials m_Credentials;
 	std::string m_Host;
 	std::string m_DataBaseName;
 	unsigned int m_Port;
-	//functions
+
+	//Functions
 };
 

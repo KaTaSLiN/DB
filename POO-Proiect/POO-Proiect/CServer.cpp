@@ -1,6 +1,8 @@
 #include "CServer.h"
 #include<iostream>
 #include "CQuery.h"
+#include "CLoginManager.h"
+
 
 void CServer::initServer(unsigned short Port)
 {
@@ -104,16 +106,52 @@ bool CServer::waitForConnections()
 	{
 		if (this->m_Selector.isReady(this->m_Listener))
 		{
+			//Clear this!!
 			sf::TcpSocket* Socket = new sf::TcpSocket;
+			//
 			this->m_Listener.accept(*Socket);
 			sf::Packet packetReceived;
-			std::string id;
+			int mode;
+			std::string userName, passWord;
+
 			if (Socket->receive(packetReceived) == sf::Socket::Done)
-				if (packetReceived >> id)
+			{
+				if (packetReceived >> mode && packetReceived >> userName && packetReceived >> passWord)
 				{
-					std::cout << id << " has connected to the Server!" << std::endl;
-					this->m_Clients.push_back(Socket);
-					this->m_Selector.add(*Socket);
+					CLoginManager log;
+					CCredentials crd(userName, passWord);
+					//Motivatie pentru separare if_login de if_reg!
+					//Else-urile sunt diferite
+					if (mode == CLoginManager::ModeLogIn)
+					{
+						//Log attempt
+						if (log.loginUser(crd))
+						{
+							//Daca s-a reusit logarea
+							//Se adauga Socket-ul in clienti si in monotorizarea Selector-ului
+							std::cout << userName << " has connected to the Server!" << std::endl;
+							f_trackSocket(Socket);
+						}
+						else
+						{
+							//Daca nu s-a reusit logarea
+						}
+					}
+					else if (mode == CLoginManager::ModeRegister)
+					{
+						//Register attempt
+						if (log.regUser(crd))
+						{
+							//Daca s-a reusit inregistrarea
+							//Se adauga Socket-ul in clienti si in monotorizarea Selector-ului
+							std::cout << userName << " has connected to the Server!" << std::endl;
+							f_trackSocket(Socket);
+						}
+						else
+						{
+							//Daca nu s-a reusit inregistrarea
+						}
+					}
 
 					////Send confirmation
 					//sf::Packet packetToSend;
@@ -121,6 +159,7 @@ bool CServer::waitForConnections()
 					//Socket->send(packetToSend);
 					return true;
 				}
+			}
 		}
 		else
 		{
@@ -142,4 +181,10 @@ void CServer::addPacketToSend(sf::Packet& packet)
 {
 	if (packet)
 		this->m_PacketsToSend.push_back(std::make_pair(this->m_PacketsReceived.back().first, packet));
+}
+
+void CServer::f_trackSocket(sf::TcpSocket* sock)
+{
+	this->m_Clients.push_back(sock);
+	this->m_Selector.add(*sock);
 }

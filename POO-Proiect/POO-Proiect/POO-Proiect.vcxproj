@@ -148,6 +148,7 @@ libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
   <ItemGroup>
     <ClCompile Include="CCredentials.cpp" />
     <ClCompile Include="CDataBase.cpp" />
+    <ClCompile Include="CLoginManager.cpp" />
     <ClCompile Include="CQuery.cpp" />
     <ClCompile Include="CResult.cpp" />
     <ClCompile Include="CServer.cpp" />
@@ -158,6 +159,7 @@ libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
   <ItemGroup>
     <ClInclude Include="CCredentials.h" />
     <ClInclude Include="CDataBase.h" />
+    <ClInclude Include="CLoginManager.h" />
     <ClInclude Include="CQuery.h" />
     <ClInclude Include="CResult.h" />
     <ClInclude Include="CServer.h" />
@@ -170,6 +172,9 @@ libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <ClInclude Include="IResult.h" />
     <ClInclude Include="IServer.h" />
     <ClInclude Include="IUser.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="users.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

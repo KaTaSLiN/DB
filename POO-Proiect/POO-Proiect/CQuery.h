@@ -34,6 +34,7 @@ public:
 	int ask(MYSQL* DataBase);
 
 private:
+	//Members
 	std::string m_Query;
 	CResult m_Result;
 };

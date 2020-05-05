@@ -102,6 +102,17 @@ using namespace std;
 //    return 0;
 //}
 
+//int main()
+//{
+//    CLoginManager log;
+//    CCredentials crd("Catali", "heme");
+//    if (log.loginUser(crd))
+//        std::cout << "Merge log" << std::endl;
+//    if(log.regUser(crd))
+//        std::cout << "Merge reg" << std::endl;
+//    return 0;
+//}
+
 int main()
 {
     CDataBase db(DBHost.c_str(), DBUser.c_str(), DBPass.c_str(), DBName.c_str(), DBport);

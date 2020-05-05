@@ -23,6 +23,7 @@ public:
 	std::string getPassword();
 
 private:
+	//Members
 	std::string m_UserName;
 	std::string m_Password;
 };

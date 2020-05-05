@@ -39,6 +39,9 @@
     <ClCompile Include="CResult.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CLoginManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CDataBase.h">
@@ -83,5 +86,11 @@
     <ClInclude Include="CResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CLoginManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="users.txt" />
   </ItemGroup>
 </Project>

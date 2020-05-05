@@ -45,7 +45,7 @@ private:
 	std::vector<MYSQL_ROW> m_Rows;
 	std::vector<char*>m_Fields;
 
-	//Private Functions
+	//Functions
 	
 
 };

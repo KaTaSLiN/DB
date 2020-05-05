@@ -29,74 +29,85 @@ int main(void)
     sf::IpAddress ip = sf::IpAddress("localhost");
     sf::TcpSocket socket;
     bool Done = false;
-    std::string text;
+    std::string userName, passWord;
+    std::string mod;
+    int mode;
 
+    std::cout << "1 For LogIn." << std::endl << "2 for Register." << std::endl << "Enter your choice: ";
+    std::getline(std::cin, mod);
     std::cout << "Enter a User Name: ";
-    std::getline(std::cin, text);
-    socket.connect(ip, 2000);
+    std::getline(std::cin, userName);
+    std::cout << "Enter a Password: ";
+    std::getline(std::cin, passWord);
+
+    mode = std::stoi(mod);
 
     sf::Packet packetToSend;
-    packetToSend << text;
-    socket.send(packetToSend);
-    socket.setBlocking(false);
+    packetToSend << mode << userName << passWord;
 
-    std::string command;
-
-    //std::cout << "In command" << std::endl;
-    std::cout << "Enter a Command: ";
-    std::getline(std::cin, command);
-    packetToSend.clear();
-    if (packetToSend << command)
+    if (socket.connect(ip, 2000) == sf::Socket::Done)
     {
-       // std::cout << "In Send" << std::endl;
         socket.send(packetToSend);
         socket.setBlocking(false);
-    }
-    sf::Packet packetReceived;
 
-    while (!Done)
-    {
-        packetReceived.clear();
-        if (socket.receive(packetReceived) == sf::Socket::Done)
+        std::string command;
+
+        std::cout << "Enter a Command: ";
+        std::getline(std::cin, command);
+        packetToSend.clear();
+        if (packetToSend << command)
         {
-            CResult res;
-            if (packetReceived >> res)
+            socket.send(packetToSend);
+            socket.setBlocking(false);
+        }
+        sf::Packet packetReceived;
+
+        while (!Done)
+        {
+            packetReceived.clear();
+            if (socket.receive(packetReceived) == sf::Socket::Done)
             {
-                //std::cout << "In rezultat" << std::endl;
-                if (res.getNumberOfFields() > 0)
+                CResult res;
+                if (packetReceived >> res)
                 {
-                    for (unsigned int j = 0; j < res.getNumberOfFields(); j++)
-                    {
-                        printf("%s ", res.getFieldName(j));
-                    }
-                    std::cout << std::endl;
-                    for (unsigned int i = 0; i < res.getNumberOfRows(); i++)
+                    if (res.getNumberOfFields() > 0)
                     {
                         for (unsigned int j = 0; j < res.getNumberOfFields(); j++)
                         {
-                            printf("%s ", res[i][j]);
+                            printf("%s ", res.getFieldName(j));
                         }
                         std::cout << std::endl;
+                        for (unsigned int i = 0; i < res.getNumberOfRows(); i++)
+                        {
+                            for (unsigned int j = 0; j < res.getNumberOfFields(); j++)
+                            {
+                                printf("%s ", res[i][j]);
+                            }
+                            std::cout << std::endl;
+                        }
                     }
+                    else
+                    {
+                        std::cout << "Rows affected: " << res.getNumberOfRows() << std::endl;
+                    }
+
                 }
-                else
+
+                std::cout << "Enter a Command: ";
+                std::getline(std::cin, command);
+                packetToSend.clear();
+                if (packetToSend << command)
                 {
-                    std::cout << "Rows affected: " << res.getNumberOfRows() << std::endl;
+                    socket.send(packetToSend);
+                    socket.setBlocking(false);
                 }
-
             }
-
-            //std::cout << "In command" << std::endl;
-            std::cout << "Enter a Command: ";
-            std::getline(std::cin, command);
-            packetToSend.clear();
-            if (packetToSend << command)
-            {
-               // std::cout << "In Send" << std::endl;
-                socket.send(packetToSend);
-                socket.setBlocking(false);
-            } 
         }
+    }
+    else
+    {
+        //Error
+        std::cout << "Nu s-a reusit conectarea la server!" << std::endl;
     }
     return 0;
 }
